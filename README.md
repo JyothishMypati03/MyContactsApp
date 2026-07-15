@@ -1,43 +1,42 @@
-# UC-01 : User Registration
+# UC-02 : User Authentication
 
 ## 📌 Objective
 
-Implement the User Registration feature for the **MyContacts App**.
+Implement the User Authentication feature for the **MyContacts App**.
 
-A new user can create an account by entering their name, email address, and password. The application validates all inputs before creating the user account.
+A registered user can log in using their email and password to access the application.
 
 ---
 
 ## 🎯 Requirements
 
-- Register a new user.
-- Accept user details from the console.
-- Validate Name.
-- Validate Email.
-- Validate Password.
-- Display registration success message.
+- Login using registered email and password.
+- Validate user credentials.
+- Authenticate the user.
+- Create a user session after successful login.
+- Display login success or failure message.
 
 ---
 
 ## 🛠 OOP Concepts Used
 
-- Class and Object
+- Interface
+- Implementation
+- Polymorphism
 - Encapsulation
-- Constructor
-- Getters
-- Method Overriding (`toString()`)
+- Singleton Design Pattern
 
 ---
 
 ## ☕ Java Concepts Used
 
 - Scanner Class
-- Regular Expressions (Regex)
-- Pattern Class
-- while Loop
-- Input Validation
-- Packages
+- Interface
+- Method Overriding
 - Object Creation
+- Constructor Injection
+- Session Management
+- Packages
 
 ---
 
@@ -54,11 +53,13 @@ src
                     ├── model
                     │     └── User.java
                     │
-                    ├── validation
-                    │     └── UserValidator.java
+                    ├── auth
+                    │     ├── Authentication.java
+                    │     ├── BasicAuthentication.java
+                    │     └── SessionManager.java
                     │
                     ├── service
-                    │     └── UserRegistrationService.java
+                    │     └── UserAuthenticationService.java
                     │
                     └── Main.java
 ```
@@ -69,7 +70,7 @@ src
 
 ### User.java
 
-Stores user information.
+Stores registered user details.
 
 Fields:
 
@@ -79,34 +80,56 @@ Fields:
 
 Responsibilities:
 
-- Store user details
-- Provide getters
-- Display user information
+- Store user information.
+- Provide getter methods.
+- Display user information.
 
 ---
 
-### UserValidator.java
+### Authentication.java
 
-Validates user input using Regular Expressions.
-
-Validation includes:
-
-- Name
-- Email
-- Password
-
----
-
-### UserRegistrationService.java
-
-Handles the complete registration process.
+Authentication interface.
 
 Responsibilities:
 
-- Read user input
-- Validate input
-- Create User object
-- Return registered user
+- Define the login method.
+- Allow multiple authentication implementations.
+
+---
+
+### BasicAuthentication.java
+
+Implements the Authentication interface.
+
+Responsibilities:
+
+- Compare entered email and password.
+- Return login status.
+
+---
+
+### SessionManager.java
+
+Singleton class.
+
+Responsibilities:
+
+- Maintain the currently logged-in user.
+- Store user session.
+- Provide logout functionality.
+
+---
+
+### UserAuthenticationService.java
+
+Handles authentication logic.
+
+Responsibilities:
+
+- Receive login request.
+- Call authentication implementation.
+- Create session on successful login.
+- Return authentication result.
 
 ---
 
@@ -116,88 +139,67 @@ Application entry point.
 
 Responsibilities:
 
-- Start the application
-- Call registration service
-- Display registered user information
+- Read login credentials.
+- Call authentication service.
+- Display login result.
 
 ---
 
-## ✅ Validation Rules
-
-### Name
-
-- First letter must be uppercase.
-- Minimum 3 characters.
-
-Example:
+## 🔄 Authentication Flow
 
 ```
-Jyothish ✅
-
-jyothish ❌
-
-Jo ❌
-```
-
----
-
-### Email
-
-Must follow standard email format.
-
-Example:
-
-```
-abc@gmail.com ✅
-
-abc@gmail ❌
-
-abc.com ❌
-```
-
----
-
-### Password
-
-Password must contain:
-
-- Minimum 8 characters
-- One uppercase letter
-- One digit
-- One special character
-
-Example:
-
-```
-Java@123 ✅
-
-java123 ❌
-
-JAVA123 ❌
+User
+   │
+   ▼
+Enter Email & Password
+   │
+   ▼
+UserAuthenticationService
+   │
+   ▼
+Authentication Interface
+   │
+   ▼
+AuthenticationConfig
+   │
+   ▼
+Credentials Match?
+   │
+ ┌─┴───────────┐
+ │             │
+Yes            No
+ │             │
+ ▼             ▼
+Session      Login Failed
+Created
 ```
 
 ---
 
 ## ▶️ Sample Output
 
-```
-=================================
-      USER REGISTRATION
-=================================
+### Successful Login
 
-Enter Name : Jyothish
+```
+========== USER LOGIN ==========
 
 Enter Email : jyothish@gmail.com
-
 Enter Password : Java@123
 
-Registration Successful!
+Login Successful!
 
-User Details
-
-Name  : Jyothish
-
-Email : jyothish@gmail.com
+Welcome Jyothish
 ```
 
 ---
+
+### Failed Login
+
+```
+========== USER LOGIN ==========
+
+Enter Email : jyothish@gmail.com
+Enter Password : Java123
+
+Invalid Email or Password!
+```

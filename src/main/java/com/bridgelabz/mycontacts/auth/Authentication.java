@@ -1,4 +1,9 @@
 package com.bridgelabz.mycontacts.auth;
 
-public class Authentication {
+import com.bridgelabz.mycontacts.model.User;
+
+public interface Authentication {
+
+    boolean login (User user  , String email , String password);
+
 }
