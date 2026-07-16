@@ -232,6 +232,49 @@ public class ContactService {
 
     }
 
+    //Delete Contact
+    public  void deleteContact(Scanner scanner){
+
+        System.out.println("\n========== DELETE CONTACT ==========");
+
+        if (contacts.isEmpty()) {
+            System.out.println("No contacts available.");
+            return;
+        }
+
+        System.out.print("Enter Contact Name to Delete: ");
+        String name = scanner.nextLine();
+
+        Contact contactToDelete = null;
+
+        for (Contact contact : contacts) {
+            if (contact.getName().equalsIgnoreCase(name)) {
+                contactToDelete = contact;
+                break;
+            }
+        }
+
+        if (contactToDelete == null) {
+            System.out.println("Contact not found.");
+            return;
+        }
+
+        System.out.println("\nContact Found:");
+        System.out.println(contactToDelete);
+
+        System.out.print("\nAre you sure you want to delete this contact? (yes/no): ");
+        String choice = scanner.nextLine();
+
+        if (choice.equalsIgnoreCase("yes")) {
+            contacts.remove(contactToDelete);
+            System.out.println("Contact deleted successfully.");
+        } else {
+            System.out.println("Delete cancelled.");
+        }
+
+
+    }
+
     // Finds a contact by name.
     private Contact findContactByName(String name) {
         for (Contact contact : contacts) {

@@ -1,20 +1,20 @@
-# UC-06 : Edit Contact
+# UC-07 : Delete Contact
 
 ## 📌 Objective
 
-Implement the **Edit Contact** feature for the **MyContacts App**.
+Implement the **Delete Contact** feature for the **MyContacts App**.
 
-A logged-in user can update the information of an existing contact such as name, phone numbers, email addresses, address, and notes.
+A logged-in user can delete an existing contact from the contact list after confirming the deletion.
 
 ---
 
 ## 🎯 Requirements
 
 - Search for an existing contact.
-- Edit contact information.
-- Validate updated data.
-- Keep old values if no new value is entered.
-- Save the updated contact information.
+- Display the contact details before deletion.
+- Ask for user confirmation.
+- Delete the contact from the contact list.
+- Display success or cancellation message.
 
 ---
 
@@ -22,9 +22,8 @@ A logged-in user can update the information of an existing contact such as name,
 
 - Encapsulation
 - Getter Methods
-- Setter Methods
-- Object Modification
 - Object-Oriented Design
+- Object Removal from Collection
 
 ---
 
@@ -33,12 +32,11 @@ A logged-in user can update the information of an existing contact such as name,
 - ArrayList
 - List Interface
 - Scanner
-- UUID
-- LocalDateTime
-- Regular Expressions (Regex)
-- Input Validation
+- Enhanced For Loop
 - String Comparison (`equalsIgnoreCase()`)
-- Packages
+- Collections
+- Object Searching
+- Object Deletion
 
 ---
 
@@ -84,22 +82,9 @@ Represents a contact.
 Responsibilities:
 
 - Store contact information.
-- Generate a unique Contact ID.
-- Store contact creation time.
-- Provide getter and setter methods.
+- Generate unique Contact ID.
+- Store creation timestamp.
 - Display contact details.
-
----
-
-### ContactValidator.java
-
-Validates contact information.
-
-Validation includes:
-
-- Contact Name
-- Phone Number
-- Email Address
 
 ---
 
@@ -113,6 +98,7 @@ Responsibilities:
 - View Contacts
 - View Contact Details
 - Edit Contact
+- Delete Contact
 
 ---
 
@@ -128,35 +114,39 @@ Responsibilities:
 
 ---
 
-## 🔄 Edit Contact Flow
+## 🔄 Delete Contact Flow
 
 ```
 Logged-in User
-        │
-        ▼
-Select "Edit Contact"
-        │
-        ▼
+       │
+       ▼
+Select "Delete Contact"
+       │
+       ▼
 Enter Contact Name
-        │
-        ▼
+       │
+       ▼
 Search Contact List
-        │
-   ┌────┴────┐
-   │         │
- Found   Not Found
-   │         │
-   ▼         ▼
-Enter New   Display
-Values      "Contact Not Found"
-   │
-   ▼
-Validate Input
-   │
-   ▼
-Update Contact
-   │
-   ▼
+       │
+ ┌─────┴─────┐
+ │           │
+Found     Not Found
+ │           │
+ ▼           ▼
+Display     Show
+Contact     "Contact Not Found"
+ │
+ ▼
+Ask for Confirmation
+ │
+ ┌─────┴─────┐
+ │           │
+Yes          No
+ │           │
+ ▼           ▼
+Delete     Cancel Delete
+ │
+ ▼
 Display Success Message
 ```
 
@@ -164,134 +154,108 @@ Display Success Message
 
 ## 📋 Features
 
-### 1. Edit Contact
+### 1. Delete Contact
 
-Allows updating:
-
-- Contact Name
-- Phone Numbers
-- Email Addresses
-- Address
-- Notes
+Allows the user to delete an existing contact from the contact list.
 
 ---
 
-### 2. Keep Existing Values
+### 2. Search Contact
 
-If the user presses **Enter** without typing a new value, the existing value is retained.
+The application searches the contact using the contact name.
 
-Example:
-
-```
-Enter New Address :
-
-(Current address remains unchanged.)
-```
+If found, complete contact details are displayed.
 
 ---
 
-### 3. Input Validation
+### 3. Confirmation Before Delete
 
-Before updating:
+Before deleting, the application asks:
 
-- Contact Name is validated.
-- Phone Numbers are validated.
-- Email Addresses are validated.
+```
+Are you sure you want to delete this contact? (yes/no)
+```
 
-Invalid values are rejected.
+This helps prevent accidental deletion.
 
 ---
 
-### 4. Search Contact
+### 4. Delete Contact
 
-User searches a contact using the contact name.
-
-If the contact exists:
+If the user enters:
 
 ```
-Contact updated successfully.
+yes
 ```
 
-Otherwise:
-
-```
-Contact not found.
-```
+The contact is removed from the contact list.
 
 ---
 
-## ✅ Validation Rules
+### 5. Cancel Delete
 
-### Contact Name
-
-- First letter must be uppercase.
-- Minimum 3 characters.
-
-Example:
+If the user enters:
 
 ```
-Rahul ✅
-
-rahul ❌
-
-Ra ❌
+no
 ```
 
----
-
-### Phone Number
-
-- Must contain exactly 10 digits.
-- Should start with 6, 7, 8, or 9.
-
-Example:
-
-```
-9876543210 ✅
-
-1234567890 ❌
-```
-
----
-
-### Email Address
-
-Must follow standard email format.
-
-Example:
-
-```
-rahul@gmail.com ✅
-
-rahul@gmail ❌
-
-rahul.com ❌
-```
+The contact remains unchanged.
 
 ---
 
 ## ▶️ Sample Output
 
+### Delete Successful
+
 ```
-========== EDIT CONTACT ==========
+========== DELETE CONTACT ==========
 
-Enter Contact Name to Edit : Rahul
+Enter Contact Name to Delete : Rahul
 
-Enter New Contact Name : Rahul Kumar
+Contact Found
 
-How many new phone numbers do you want to set? 2
+Name : Rahul
 
-Enter Phone Number 1 : 9876543210
+Phone : [9876543210]
 
-Enter Phone Number 2 : 9123456789
+Email : [rahul@gmail.com]
 
-How many new email addresses do you want to set? 1
+Address : Bangalore
 
-Enter Email Address 1 : rahulkumar@gmail.com
+Notes : College Friend
 
-Enter New Address : Bangalore
+Are you sure you want to delete this contact? (yes/no)
 
-Enter New Notes : Best Friend
+yes
 
-Contact updated successfully.
+Contact deleted successfully.
+```
+
+---
+
+### Delete Cancelled
+
+```
+========== DELETE CONTACT ==========
+
+Enter Contact Name to Delete : Rahul
+
+Are you sure you want to delete this contact? (yes/no)
+
+no
+
+Delete cancelled.
+```
+
+---
+
+### Contact Not Found
+
+```
+========== DELETE CONTACT ==========
+
+Enter Contact Name to Delete : Suresh
+
+Contact not found.
 ```
