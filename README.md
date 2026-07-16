@@ -1,40 +1,44 @@
-# UC-03 : User Profile Management
+# UC-04 : Create Contact
 
 ## 📌 Objective
 
-Implement the **User Profile Management** feature for the **MyContacts App**.
+Implement the **Create Contact** feature for the **MyContacts App**.
 
-A logged-in user can view and update profile information, change their password, and manage personal preferences.
+A logged-in user can create and store contacts by providing contact details such as name, phone numbers, email addresses, address, and notes.
 
 ---
 
 ## 🎯 Requirements
 
-- View user profile.
-- Update profile information.
-- Change password.
-- Update user preferences.
-- Validate user inputs before updating.
+- Create a new contact.
+- Allow multiple phone numbers.
+- Allow multiple email addresses.
+- Generate a unique Contact ID.
+- Store contact creation time.
+- Display all saved contacts.
 
 ---
 
 ## 🛠 OOP Concepts Used
 
+- Class and Object
 - Encapsulation
-- JavaBeans Convention (Getters & Setters)
-- Object-Oriented Design
-- Method Abstraction
+- Composition
+- Constructor
+- Collections
+- Object Association
 
 ---
 
 ## ☕ Java Concepts Used
 
-- Scanner Class
-- Getter and Setter Methods
+- ArrayList
+- List Interface
+- UUID
+- LocalDateTime
+- Scanner
 - Regular Expressions (Regex)
-- Pattern Class
 - Input Validation
-- Method Calls
 - Packages
 
 ---
@@ -50,13 +54,22 @@ src
                 └── mycontacts
                     │
                     ├── model
-                    │     └── User.java
+                    │     ├── User.java
+                    │     └── Contact.java
                     │
                     ├── validation
-                    │     └── UserValidator.java
+                    │     ├── UserValidator.java
+                    │     └── ContactValidator.java
+                    │
+                    ├── auth
+                    │     ├── Authentication.java
+                    │     ├── BasicAuthentication.java
+                    │     └── SessionManager.java
                     │
                     ├── service
-                    │     └── UserProfileService.java
+                    │     ├── UserAuthenticationService.java
+                    │     ├── UserProfileService.java
+                    │     └── ContactService.java
                     │
                     └── Main.java
 ```
@@ -65,51 +78,51 @@ src
 
 ## 📄 Class Description
 
-### User.java
+### Contact.java
 
-Represents a user in the application.
+Represents a contact in the application.
 
 Fields:
 
-- Name
-- Email
-- Password
-- Phone Number
+- Contact ID
+- Owner Email
+- Contact Name
+- Phone Numbers
+- Email Addresses
 - Address
-- Preference
+- Notes
+- Created Time
 
 Responsibilities:
 
-- Store user information.
-- Provide getter methods.
-- Provide setter methods.
-- Display user details.
+- Store contact information.
+- Generate unique ID.
+- Store creation timestamp.
+- Display contact details.
 
 ---
 
-### UserValidator.java
+### ContactValidator.java
 
-Validates user input.
+Validates contact information.
 
 Validation includes:
 
-- Name
-- Email
-- Password
+- Contact Name
 - Phone Number
+- Email Address
 
 ---
 
-### UserProfileService.java
+### ContactService.java
 
-Handles all profile-related operations.
+Handles all contact operations.
 
 Responsibilities:
 
-- View Profile
-- Update Profile
-- Change Password
-- Update Preference
+- Create Contact
+- Store Contact
+- Display Contacts
 
 ---
 
@@ -119,94 +132,147 @@ Application entry point.
 
 Responsibilities:
 
-- Display menu
-- Read user choice
-- Call profile service methods
+- Display application menu.
+- Call Contact Service.
+- Display saved contacts.
 
 ---
 
-## 🔄 User Profile Management Flow
+## 🔄 Contact Creation Flow
 
 ```
-User
- │
- ▼
-Login Successful
- │
- ▼
-Profile Menu
- │
- ├──────────────┐
- │              │
- ▼              ▼
-View Profile   Update Profile
- │              │
- ▼              ▼
-Display Data   Validate Input
- │              │
- └──────┬───────┘
-        ▼
-Update User Object
-        │
-        ▼
-Profile Updated
+Logged-in User
+       │
+       ▼
+Select "Create Contact"
+       │
+       ▼
+Enter Contact Name
+       │
+       ▼
+Validate Name
+       │
+       ▼
+Enter Phone Numbers
+       │
+       ▼
+Validate Phone Numbers
+       │
+       ▼
+Enter Email Addresses
+       │
+       ▼
+Validate Email Addresses
+       │
+       ▼
+Enter Address & Notes
+       │
+       ▼
+Generate UUID
+       │
+       ▼
+Store Created Time
+       │
+       ▼
+Create Contact Object
+       │
+       ▼
+Save Contact
 ```
 
 ---
 
 ## 📋 Features
 
-### 1. View Profile
+### 1. Create Contact
 
-Displays:
+Stores:
 
-- Name
-- Email
-- Phone Number
+- Contact Name
+- Multiple Phone Numbers
+- Multiple Email Addresses
 - Address
-- Preference
+- Notes
 
 ---
 
-### 2. Update Profile
+### 2. Automatic Contact ID
 
-Allows user to update:
+Each contact receives a unique identifier using:
 
-- Name
-- Email
-- Phone Number
-- Address
-- Preference
+```
+UUID
+```
 
-All inputs are validated before updating.
+Example:
 
----
-
-### 3. Change Password
-
-Steps:
-
-- Enter current password.
-- Verify current password.
-- Enter new password.
-- Validate new password.
-- Update password.
+```
+d4b43d97-3d4c-41f1-9b6d-5a4dfd4e37a2
+```
 
 ---
 
-### 4. Update Preference
+### 3. Contact Creation Time
 
-Allows user to update preferences like:
+Stores the date and time when the contact was created using:
 
-- Light Mode
-- Dark Mode
-- Email Notifications
+```
+LocalDateTime
+```
+
+Example:
+
+```
+2026-07-16T10:35:48
+```
+
+---
+
+### 4. Multiple Phone Numbers
+
+A contact can have multiple phone numbers.
+
+Example:
+
+```
+9876543210
+
+9123456789
+
+9988776655
+```
+
+Stored using:
+
+```
+List<String>
+```
+
+---
+
+### 5. Multiple Email Addresses
+
+A contact can have multiple email addresses.
+
+Example:
+
+```
+john@gmail.com
+
+john.office@gmail.com
+```
+
+Stored using:
+
+```
+List<String>
+```
 
 ---
 
 ## ✅ Validation Rules
 
-### Name
+### Contact Name
 
 - First letter must be uppercase.
 - Minimum 3 characters.
@@ -214,16 +280,31 @@ Allows user to update preferences like:
 Example:
 
 ```
-Jyothish ✅
+John ✅
 
-jyothish ❌
+john ❌
 
 Jo ❌
 ```
 
 ---
 
-### Email
+### Phone Number
+
+- Must contain 10 digits.
+- Should start with 6, 7, 8, or 9.
+
+Example:
+
+```
+9876543210 ✅
+
+1234567890 ❌
+```
+
+---
+
+### Email Address
 
 Must follow standard email format.
 
@@ -239,60 +320,26 @@ abc.com ❌
 
 ---
 
-### Phone Number
-
-- Must contain exactly 10 digits.
-- Should start with 6, 7, 8, or 9.
-
-Example:
-
-```
-9876543210 ✅
-
-1234567890 ❌
-```
-
----
-
-### Password
-
-Password must contain:
-
-- Minimum 8 characters
-- One uppercase letter
-- One digit
-- One special character
-
-Example:
-
-```
-Java@123 ✅
-
-java123 ❌
-
-JAVA123 ❌
-```
-
----
-
 ## ▶️ Sample Output
 
 ```
-========== USER PROFILE MANAGEMENT ==========
+========== CREATE CONTACT ==========
 
-1. View Profile
-2. Update Profile
-3. Change Password
-4. Update Preference
-5. Exit
+Enter Contact Name : Rahul
 
-Enter Your Choice : 1
+How many phone numbers do you want to add? 2
 
-========== PROFILE DETAILS ==========
+Enter Phone Number 1 : 9876543210
+Enter Phone Number 2 : 9123456789
 
-Name       : Jyothish
-Email      : jyothish@gmail.com
-Phone      : 9876543210
-Address    : Hyderabad
-Preference : Light Mode
+How many email addresses do you want to add? 2
+
+Enter Email Address 1 : rahul@gmail.com
+Enter Email Address 2 : rahul.office@gmail.com
+
+Enter Address : Bangalore
+
+Enter Notes : College Friend
+
+Contact created successfully.
 ```
