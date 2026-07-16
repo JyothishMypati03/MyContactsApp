@@ -1,6 +1,7 @@
 package com.bridgelabz.mycontacts.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,26 @@ public class Contact {
         this.notes=notes;
         this.createdAt=LocalDateTime.now();
 
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhoneNumbers(List<String> phoneNumbers) {
+        this.phoneNumbers = new ArrayList<>(phoneNumbers);
+    }
+
+    public void setEmailAddresses(List<String> emailAddresses) {
+        this.emailAddresses = new ArrayList<>(emailAddresses);
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public UUID getId() {

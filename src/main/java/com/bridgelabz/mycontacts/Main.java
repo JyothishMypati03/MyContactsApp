@@ -59,7 +59,8 @@ public class Main {
             System.out.println("3. Change Password");
             System.out.println("4. Create Contact");
             System.out.println("5. View Contact Details");
-            System.out.println("6. View Contacts");
+            System.out.println("6. Edit Contact");
+            System.out.println("7. View Contacts");
             System.out.print("Enter Your Choice: ");
 
             // Reads the user's menu choice.
@@ -72,10 +73,11 @@ public class Main {
                 case  1 : profileService.viewProfile(registeredUser); break;
                 case  2 : profileService.updateProfile(registeredUser , scanner); break;
                 case  3 : profileService.changePassword(registeredUser , scanner); break;
-                case 4 : contactService.createContact(registeredUser ,scanner); break;
-                case 5 : contactService.viewContactDetails(scanner);break;
-                case  6 : contactService.viewContacts(); break;
-                default:  System.out.println("Invalid choice.");
+                case  4 : contactService.createContact(registeredUser ,scanner); break;
+                case  5 : contactService.viewContactDetails(scanner);break;
+                case  6 : contactService.editContact(scanner);
+                case  7 : contactService.viewContacts(); break;
+                default :  System.out.println("Invalid choice.");
             }
 
         }

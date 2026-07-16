@@ -1,19 +1,20 @@
-# UC-05 : View Contact Details
+# UC-06 : Edit Contact
 
 ## 📌 Objective
 
-Implement the **View Contact Details** feature for the **MyContacts App**.
+Implement the **Edit Contact** feature for the **MyContacts App**.
 
-A logged-in user can view the complete details of a specific contact by entering the contact name.
+A logged-in user can update the information of an existing contact such as name, phone numbers, email addresses, address, and notes.
 
 ---
 
 ## 🎯 Requirements
 
-- Display all available contacts.
-- Allow the user to search for a contact by name.
-- Show complete details of the selected contact.
-- Display a message if the contact is not found.
+- Search for an existing contact.
+- Edit contact information.
+- Validate updated data.
+- Keep old values if no new value is entered.
+- Save the updated contact information.
 
 ---
 
@@ -21,20 +22,22 @@ A logged-in user can view the complete details of a specific contact by entering
 
 - Encapsulation
 - Getter Methods
-- Method Overriding (`toString()`)
+- Setter Methods
+- Object Modification
 - Object-Oriented Design
 
 ---
 
 ## ☕ Java Concepts Used
 
-- Scanner Class
 - ArrayList
 - List Interface
+- Scanner
 - UUID
 - LocalDateTime
-- String Comparison (`equalsIgnoreCase()`)
+- Regular Expressions (Regex)
 - Input Validation
+- String Comparison (`equalsIgnoreCase()`)
 - Packages
 
 ---
@@ -81,21 +84,35 @@ Represents a contact.
 Responsibilities:
 
 - Store contact information.
-- Generate unique Contact ID.
-- Store creation timestamp.
-- Display complete contact details using `toString()`.
+- Generate a unique Contact ID.
+- Store contact creation time.
+- Provide getter and setter methods.
+- Display contact details.
+
+---
+
+### ContactValidator.java
+
+Validates contact information.
+
+Validation includes:
+
+- Contact Name
+- Phone Number
+- Email Address
 
 ---
 
 ### ContactService.java
 
-Handles contact operations.
+Handles all contact-related operations.
 
 Responsibilities:
 
 - Create Contact
-- View All Contacts
+- View Contacts
 - View Contact Details
+- Edit Contact
 
 ---
 
@@ -111,109 +128,170 @@ Responsibilities:
 
 ---
 
-## 🔄 Contact View Flow
+## 🔄 Edit Contact Flow
 
 ```
-User
- │
- ▼
-Select "View Contact Details"
- │
- ▼
+Logged-in User
+        │
+        ▼
+Select "Edit Contact"
+        │
+        ▼
 Enter Contact Name
- │
- ▼
+        │
+        ▼
 Search Contact List
- │
- ┌──────────────┐
- │              │
- ▼              ▼
-Found        Not Found
- │              │
- ▼              ▼
-Display      Show
-Details      "Contact Not Found"
+        │
+   ┌────┴────┐
+   │         │
+ Found   Not Found
+   │         │
+   ▼         ▼
+Enter New   Display
+Values      "Contact Not Found"
+   │
+   ▼
+Validate Input
+   │
+   ▼
+Update Contact
+   │
+   ▼
+Display Success Message
 ```
 
 ---
 
 ## 📋 Features
 
-### 1. View Contact Details
+### 1. Edit Contact
 
-Displays:
+Allows updating:
 
-- Contact ID
-- Owner Email
 - Contact Name
 - Phone Numbers
 - Email Addresses
 - Address
 - Notes
-- Created Date & Time
 
 ---
 
-### 2. Search by Contact Name
+### 2. Keep Existing Values
 
-User enters a contact name.
+If the user presses **Enter** without typing a new value, the existing value is retained.
 
 Example:
 
 ```
-Rahul
-```
+Enter New Address :
 
-The application searches the contact list and displays the matching contact.
+(Current address remains unchanged.)
+```
 
 ---
 
-### 3. Handle Contact Not Found
+### 3. Input Validation
 
-If the entered contact does not exist, the application displays:
+Before updating:
+
+- Contact Name is validated.
+- Phone Numbers are validated.
+- Email Addresses are validated.
+
+Invalid values are rejected.
+
+---
+
+### 4. Search Contact
+
+User searches a contact using the contact name.
+
+If the contact exists:
+
+```
+Contact updated successfully.
+```
+
+Otherwise:
 
 ```
 Contact not found.
+```
+
+---
+
+## ✅ Validation Rules
+
+### Contact Name
+
+- First letter must be uppercase.
+- Minimum 3 characters.
+
+Example:
+
+```
+Rahul ✅
+
+rahul ❌
+
+Ra ❌
+```
+
+---
+
+### Phone Number
+
+- Must contain exactly 10 digits.
+- Should start with 6, 7, 8, or 9.
+
+Example:
+
+```
+9876543210 ✅
+
+1234567890 ❌
+```
+
+---
+
+### Email Address
+
+Must follow standard email format.
+
+Example:
+
+```
+rahul@gmail.com ✅
+
+rahul@gmail ❌
+
+rahul.com ❌
 ```
 
 ---
 
 ## ▶️ Sample Output
 
-### Contact Found
-
 ```
-========== VIEW CONTACT DETAILS ==========
+========== EDIT CONTACT ==========
 
-Enter Contact Name : Rahul
+Enter Contact Name to Edit : Rahul
 
-Contact Details
+Enter New Contact Name : Rahul Kumar
 
-ID            : 89d14e5a-9d32-4d6d-a7c3-8e9a52d2a3f1
+How many new phone numbers do you want to set? 2
 
-Owner Email   : jyothish@gmail.com
+Enter Phone Number 1 : 9876543210
 
-Name          : Rahul
+Enter Phone Number 2 : 9123456789
 
-Phone Numbers : [9876543210, 9123456789]
+How many new email addresses do you want to set? 1
 
-Email Address : [rahul@gmail.com, rahul.office@gmail.com]
+Enter Email Address 1 : rahulkumar@gmail.com
 
-Address       : Bangalore
+Enter New Address : Bangalore
 
-Notes         : College Friend
+Enter New Notes : Best Friend
 
-Created At    : 2026-07-16T10:45:12
-```
-
----
-
-### Contact Not Found
-
-```
-========== VIEW CONTACT DETAILS ==========
-
-Enter Contact Name : Suresh
-
-Contact not found.
+Contact updated successfully.
 ```

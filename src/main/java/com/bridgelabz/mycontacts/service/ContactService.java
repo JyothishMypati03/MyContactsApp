@@ -99,6 +99,7 @@ public class ContactService {
         }
     }
 
+    // Displays the details of a contact by name.
     public void viewContactDetails(Scanner scanner){
 
         System.out.println("\n========== VIEW CONTACT DETAILS ==========");
@@ -120,6 +121,125 @@ public class ContactService {
 
         System.out.println("Contact not found.");
 
+    }
+
+    // Edits the details of an existing contact.
+    public  void editContact(Scanner scanner){
+        System.out.println("\n========== EDIT CONTACT ==========");
+
+        if (contacts.isEmpty()) {
+            System.out.println("No contacts available.");
+            return;
+        }
+
+        System.out.print("Enter Contact Name to Edit: ");
+        String name = scanner.nextLine();
+
+        Contact contact = findContactByName(name);
+
+        if (contact == null) {
+            System.out.println("Contact not found.");
+            return;
+        }
+
+        System.out.println("Leave field empty to keep old value.");
+
+        System.out.print("Enter New Contact Name: ");
+        String newName = scanner.nextLine();
+        if(!newName.isBlank()){
+            if(ContactValidator.validateName(newName)){
+                contact.setName(newName);
+            }else {
+                System.out.println("Invalid name. Old name kept.");
+            }
+        }
+
+        System.out.print("How many new phone numbers do you want to set? ");
+        String phoneInput = scanner.nextLine();
+
+        if(!phoneInput.isBlank()){
+            try{
+                int phoneCount = Integer.parseInt(phoneInput);
+                if(phoneCount > 0 ){
+                    List<String> newPhones = new ArrayList<>();
+                    for(int i=1 ; i<=phoneCount; i++){
+
+                        while (true){
+                            System.out.println("Enter Phone Number " + i + ": ");
+                            String phone = scanner.nextLine();
+
+                            if(ContactValidator.validatePhoneNumber(phone)){
+                                newPhones.add(phone);
+                                break;
+                            }
+
+                            System.out.println("Invalid phone number.");
+                        }
+                    }
+                    contact.setPhoneNumbers(newPhones);
+
+                }
+
+            }catch (NumberFormatException e){
+
+                System.out.println("Invalid number. Phone numbers not changed.");
+
+            }
+
+
+        }
+
+        System.out.print("How many new email addresses do you want to set? ");
+        String emailInput = scanner.nextLine();
+        if (!emailInput.isBlank()) {
+            try {
+                int emailCount = Integer.parseInt(emailInput);
+                if (emailCount > 0) {
+                    List<String> newEmails = new ArrayList<>();
+                    for (int i = 1; i <= emailCount; i++) {
+                        while (true) {
+                            System.out.print("Enter Email Address " + i + ": ");
+                            String email = scanner.nextLine();
+
+                            if (ContactValidator.validateEmail(email)) {
+                                newEmails.add(email);
+                                break;
+                            }
+
+                            System.out.println("Invalid email format.");
+                        }
+                    }
+                    contact.setEmailAddresses(newEmails);
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number. Email addresses not changed.");
+            }
+        }
+
+        System.out.print("Enter New Address: ");
+        String newAddress = scanner.nextLine();
+        if (!newAddress.isBlank()) {
+            contact.setAddress(newAddress);
+        }
+
+        System.out.print("Enter New Notes: ");
+        String newNotes = scanner.nextLine();
+        if (!newNotes.isBlank()) {
+            contact.setNotes(newNotes);
+        }
+
+        System.out.println("Contact updated successfully.");
+
+    }
+
+    // Finds a contact by name.
+    private Contact findContactByName(String name) {
+        for (Contact contact : contacts) {
+            if (contact.getName().equalsIgnoreCase(name)) {
+                return contact;
+            }
+        }
+        return null;
     }
 
     // Reads and returns a valid positive number from the user.
