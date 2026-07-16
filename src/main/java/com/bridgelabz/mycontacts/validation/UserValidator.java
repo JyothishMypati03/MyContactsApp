@@ -29,5 +29,13 @@ public class UserValidator {
 
     }
 
+    public  static  boolean validatePhoneNumber(String phoneNumber){
+
+        String  regex = "^[6-9][0-9]{9}$";
+
+        return  Pattern.matches(regex , phoneNumber);
+
+    }
+
 
 }

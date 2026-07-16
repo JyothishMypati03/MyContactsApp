@@ -1,41 +1,40 @@
-# UC-02 : User Authentication
+# UC-03 : User Profile Management
 
 ## 📌 Objective
 
-Implement the User Authentication feature for the **MyContacts App**.
+Implement the **User Profile Management** feature for the **MyContacts App**.
 
-A registered user can log in using their email and password to access the application.
+A logged-in user can view and update profile information, change their password, and manage personal preferences.
 
 ---
 
 ## 🎯 Requirements
 
-- Login using registered email and password.
-- Validate user credentials.
-- Authenticate the user.
-- Create a user session after successful login.
-- Display login success or failure message.
+- View user profile.
+- Update profile information.
+- Change password.
+- Update user preferences.
+- Validate user inputs before updating.
 
 ---
 
 ## 🛠 OOP Concepts Used
 
-- Interface
-- Implementation
-- Polymorphism
 - Encapsulation
-- Singleton Design Pattern
+- JavaBeans Convention (Getters & Setters)
+- Object-Oriented Design
+- Method Abstraction
 
 ---
 
 ## ☕ Java Concepts Used
 
 - Scanner Class
-- Interface
-- Method Overriding
-- Object Creation
-- Constructor Injection
-- Session Management
+- Getter and Setter Methods
+- Regular Expressions (Regex)
+- Pattern Class
+- Input Validation
+- Method Calls
 - Packages
 
 ---
@@ -53,13 +52,11 @@ src
                     ├── model
                     │     └── User.java
                     │
-                    ├── auth
-                    │     ├── Authentication.java
-                    │     ├── BasicAuthentication.java
-                    │     └── SessionManager.java
+                    ├── validation
+                    │     └── UserValidator.java
                     │
                     ├── service
-                    │     └── UserAuthenticationService.java
+                    │     └── UserProfileService.java
                     │
                     └── Main.java
 ```
@@ -70,66 +67,49 @@ src
 
 ### User.java
 
-Stores registered user details.
+Represents a user in the application.
 
 Fields:
 
 - Name
 - Email
 - Password
+- Phone Number
+- Address
+- Preference
 
 Responsibilities:
 
 - Store user information.
 - Provide getter methods.
-- Display user information.
+- Provide setter methods.
+- Display user details.
 
 ---
 
-### Authentication.java
+### UserValidator.java
 
-Authentication interface.
+Validates user input.
 
-Responsibilities:
+Validation includes:
 
-- Define the login method.
-- Allow multiple authentication implementations.
-
----
-
-### BasicAuthentication.java
-
-Implements the Authentication interface.
-
-Responsibilities:
-
-- Compare entered email and password.
-- Return login status.
+- Name
+- Email
+- Password
+- Phone Number
 
 ---
 
-### SessionManager.java
+### UserProfileService.java
 
-Singleton class.
-
-Responsibilities:
-
-- Maintain the currently logged-in user.
-- Store user session.
-- Provide logout functionality.
-
----
-
-### UserAuthenticationService.java
-
-Handles authentication logic.
+Handles all profile-related operations.
 
 Responsibilities:
 
-- Receive login request.
-- Call authentication implementation.
-- Create session on successful login.
-- Return authentication result.
+- View Profile
+- Update Profile
+- Change Password
+- Update Preference
 
 ---
 
@@ -139,67 +119,180 @@ Application entry point.
 
 Responsibilities:
 
-- Read login credentials.
-- Call authentication service.
-- Display login result.
+- Display menu
+- Read user choice
+- Call profile service methods
 
 ---
 
-## 🔄 Authentication Flow
+## 🔄 User Profile Management Flow
 
 ```
 User
-   │
-   ▼
-Enter Email & Password
-   │
-   ▼
-UserAuthenticationService
-   │
-   ▼
-Authentication Interface
-   │
-   ▼
-AuthenticationConfig
-   │
-   ▼
-Credentials Match?
-   │
- ┌─┴───────────┐
- │             │
-Yes            No
- │             │
- ▼             ▼
-Session      Login Failed
-Created
+ │
+ ▼
+Login Successful
+ │
+ ▼
+Profile Menu
+ │
+ ├──────────────┐
+ │              │
+ ▼              ▼
+View Profile   Update Profile
+ │              │
+ ▼              ▼
+Display Data   Validate Input
+ │              │
+ └──────┬───────┘
+        ▼
+Update User Object
+        │
+        ▼
+Profile Updated
+```
+
+---
+
+## 📋 Features
+
+### 1. View Profile
+
+Displays:
+
+- Name
+- Email
+- Phone Number
+- Address
+- Preference
+
+---
+
+### 2. Update Profile
+
+Allows user to update:
+
+- Name
+- Email
+- Phone Number
+- Address
+- Preference
+
+All inputs are validated before updating.
+
+---
+
+### 3. Change Password
+
+Steps:
+
+- Enter current password.
+- Verify current password.
+- Enter new password.
+- Validate new password.
+- Update password.
+
+---
+
+### 4. Update Preference
+
+Allows user to update preferences like:
+
+- Light Mode
+- Dark Mode
+- Email Notifications
+
+---
+
+## ✅ Validation Rules
+
+### Name
+
+- First letter must be uppercase.
+- Minimum 3 characters.
+
+Example:
+
+```
+Jyothish ✅
+
+jyothish ❌
+
+Jo ❌
+```
+
+---
+
+### Email
+
+Must follow standard email format.
+
+Example:
+
+```
+abc@gmail.com ✅
+
+abc@gmail ❌
+
+abc.com ❌
+```
+
+---
+
+### Phone Number
+
+- Must contain exactly 10 digits.
+- Should start with 6, 7, 8, or 9.
+
+Example:
+
+```
+9876543210 ✅
+
+1234567890 ❌
+```
+
+---
+
+### Password
+
+Password must contain:
+
+- Minimum 8 characters
+- One uppercase letter
+- One digit
+- One special character
+
+Example:
+
+```
+Java@123 ✅
+
+java123 ❌
+
+JAVA123 ❌
 ```
 
 ---
 
 ## ▶️ Sample Output
 
-### Successful Login
-
 ```
-========== USER LOGIN ==========
+========== USER PROFILE MANAGEMENT ==========
 
-Enter Email : jyothish@gmail.com
-Enter Password : Java@123
+1. View Profile
+2. Update Profile
+3. Change Password
+4. Update Preference
+5. Exit
 
-Login Successful!
+Enter Your Choice : 1
 
-Welcome Jyothish
-```
+========== PROFILE DETAILS ==========
 
----
-
-### Failed Login
-
-```
-========== USER LOGIN ==========
-
-Enter Email : jyothish@gmail.com
-Enter Password : Java123
-
-Invalid Email or Password!
+Name       : Jyothish
+Email      : jyothish@gmail.com
+Phone      : 9876543210
+Address    : Hyderabad
+Preference : Light Mode
 ```
