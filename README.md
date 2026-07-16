@@ -1,43 +1,39 @@
-# UC-04 : Create Contact
+# UC-05 : View Contact Details
 
 ## 📌 Objective
 
-Implement the **Create Contact** feature for the **MyContacts App**.
+Implement the **View Contact Details** feature for the **MyContacts App**.
 
-A logged-in user can create and store contacts by providing contact details such as name, phone numbers, email addresses, address, and notes.
+A logged-in user can view the complete details of a specific contact by entering the contact name.
 
 ---
 
 ## 🎯 Requirements
 
-- Create a new contact.
-- Allow multiple phone numbers.
-- Allow multiple email addresses.
-- Generate a unique Contact ID.
-- Store contact creation time.
-- Display all saved contacts.
+- Display all available contacts.
+- Allow the user to search for a contact by name.
+- Show complete details of the selected contact.
+- Display a message if the contact is not found.
 
 ---
 
 ## 🛠 OOP Concepts Used
 
-- Class and Object
 - Encapsulation
-- Composition
-- Constructor
-- Collections
-- Object Association
+- Getter Methods
+- Method Overriding (`toString()`)
+- Object-Oriented Design
 
 ---
 
 ## ☕ Java Concepts Used
 
+- Scanner Class
 - ArrayList
 - List Interface
 - UUID
 - LocalDateTime
-- Scanner
-- Regular Expressions (Regex)
+- String Comparison (`equalsIgnoreCase()`)
 - Input Validation
 - Packages
 
@@ -80,49 +76,26 @@ src
 
 ### Contact.java
 
-Represents a contact in the application.
-
-Fields:
-
-- Contact ID
-- Owner Email
-- Contact Name
-- Phone Numbers
-- Email Addresses
-- Address
-- Notes
-- Created Time
+Represents a contact.
 
 Responsibilities:
 
 - Store contact information.
-- Generate unique ID.
+- Generate unique Contact ID.
 - Store creation timestamp.
-- Display contact details.
-
----
-
-### ContactValidator.java
-
-Validates contact information.
-
-Validation includes:
-
-- Contact Name
-- Phone Number
-- Email Address
+- Display complete contact details using `toString()`.
 
 ---
 
 ### ContactService.java
 
-Handles all contact operations.
+Handles contact operations.
 
 Responsibilities:
 
 - Create Contact
-- Store Contact
-- Display Contacts
+- View All Contacts
+- View Contact Details
 
 ---
 
@@ -132,214 +105,115 @@ Application entry point.
 
 Responsibilities:
 
-- Display application menu.
-- Call Contact Service.
-- Display saved contacts.
+- Display menu.
+- Read user choice.
+- Call Contact Service methods.
 
 ---
 
-## 🔄 Contact Creation Flow
+## 🔄 Contact View Flow
 
 ```
-Logged-in User
-       │
-       ▼
-Select "Create Contact"
-       │
-       ▼
+User
+ │
+ ▼
+Select "View Contact Details"
+ │
+ ▼
 Enter Contact Name
-       │
-       ▼
-Validate Name
-       │
-       ▼
-Enter Phone Numbers
-       │
-       ▼
-Validate Phone Numbers
-       │
-       ▼
-Enter Email Addresses
-       │
-       ▼
-Validate Email Addresses
-       │
-       ▼
-Enter Address & Notes
-       │
-       ▼
-Generate UUID
-       │
-       ▼
-Store Created Time
-       │
-       ▼
-Create Contact Object
-       │
-       ▼
-Save Contact
+ │
+ ▼
+Search Contact List
+ │
+ ┌──────────────┐
+ │              │
+ ▼              ▼
+Found        Not Found
+ │              │
+ ▼              ▼
+Display      Show
+Details      "Contact Not Found"
 ```
 
 ---
 
 ## 📋 Features
 
-### 1. Create Contact
+### 1. View Contact Details
 
-Stores:
+Displays:
 
+- Contact ID
+- Owner Email
 - Contact Name
-- Multiple Phone Numbers
-- Multiple Email Addresses
+- Phone Numbers
+- Email Addresses
 - Address
 - Notes
+- Created Date & Time
 
 ---
 
-### 2. Automatic Contact ID
+### 2. Search by Contact Name
 
-Each contact receives a unique identifier using:
-
-```
-UUID
-```
+User enters a contact name.
 
 Example:
 
 ```
-d4b43d97-3d4c-41f1-9b6d-5a4dfd4e37a2
+Rahul
 ```
+
+The application searches the contact list and displays the matching contact.
 
 ---
 
-### 3. Contact Creation Time
+### 3. Handle Contact Not Found
 
-Stores the date and time when the contact was created using:
-
-```
-LocalDateTime
-```
-
-Example:
+If the entered contact does not exist, the application displays:
 
 ```
-2026-07-16T10:35:48
-```
-
----
-
-### 4. Multiple Phone Numbers
-
-A contact can have multiple phone numbers.
-
-Example:
-
-```
-9876543210
-
-9123456789
-
-9988776655
-```
-
-Stored using:
-
-```
-List<String>
-```
-
----
-
-### 5. Multiple Email Addresses
-
-A contact can have multiple email addresses.
-
-Example:
-
-```
-john@gmail.com
-
-john.office@gmail.com
-```
-
-Stored using:
-
-```
-List<String>
-```
-
----
-
-## ✅ Validation Rules
-
-### Contact Name
-
-- First letter must be uppercase.
-- Minimum 3 characters.
-
-Example:
-
-```
-John ✅
-
-john ❌
-
-Jo ❌
-```
-
----
-
-### Phone Number
-
-- Must contain 10 digits.
-- Should start with 6, 7, 8, or 9.
-
-Example:
-
-```
-9876543210 ✅
-
-1234567890 ❌
-```
-
----
-
-### Email Address
-
-Must follow standard email format.
-
-Example:
-
-```
-abc@gmail.com ✅
-
-abc@gmail ❌
-
-abc.com ❌
+Contact not found.
 ```
 
 ---
 
 ## ▶️ Sample Output
 
+### Contact Found
+
 ```
-========== CREATE CONTACT ==========
+========== VIEW CONTACT DETAILS ==========
 
 Enter Contact Name : Rahul
 
-How many phone numbers do you want to add? 2
+Contact Details
 
-Enter Phone Number 1 : 9876543210
-Enter Phone Number 2 : 9123456789
+ID            : 89d14e5a-9d32-4d6d-a7c3-8e9a52d2a3f1
 
-How many email addresses do you want to add? 2
+Owner Email   : jyothish@gmail.com
 
-Enter Email Address 1 : rahul@gmail.com
-Enter Email Address 2 : rahul.office@gmail.com
+Name          : Rahul
 
-Enter Address : Bangalore
+Phone Numbers : [9876543210, 9123456789]
 
-Enter Notes : College Friend
+Email Address : [rahul@gmail.com, rahul.office@gmail.com]
 
-Contact created successfully.
+Address       : Bangalore
+
+Notes         : College Friend
+
+Created At    : 2026-07-16T10:45:12
+```
+
+---
+
+### Contact Not Found
+
+```
+========== VIEW CONTACT DETAILS ==========
+
+Enter Contact Name : Suresh
+
+Contact not found.
 ```

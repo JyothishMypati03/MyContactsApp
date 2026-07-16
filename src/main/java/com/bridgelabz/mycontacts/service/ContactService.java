@@ -99,6 +99,29 @@ public class ContactService {
         }
     }
 
+    public void viewContactDetails(Scanner scanner){
+
+        System.out.println("\n========== VIEW CONTACT DETAILS ==========");
+
+        if (contacts.isEmpty()) {
+            System.out.println("No contacts available.");
+            return;
+        }
+
+        System.out.print("Enter Contact Name: ");
+        String name = scanner.nextLine();
+
+        for (Contact contact : contacts) {
+            if (contact.getName().equalsIgnoreCase(name)) {
+                System.out.println("\n" + contact);
+                return;
+            }
+        }
+
+        System.out.println("Contact not found.");
+
+    }
+
     // Reads and returns a valid positive number from the user.
     private int readPositiveCount(Scanner scanner, String message) {
         while (true) {
