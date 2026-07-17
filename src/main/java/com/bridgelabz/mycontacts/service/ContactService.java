@@ -18,6 +18,11 @@ public class ContactService {
 
      List<Contact> contacts =  new ArrayList<>();
 
+     // GetContacts
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
     // Creates a new contact for the logged-in user.
     public  void createContact(User loggedInUser , Scanner scanner){
 

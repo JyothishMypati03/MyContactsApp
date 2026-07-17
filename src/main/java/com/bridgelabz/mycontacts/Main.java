@@ -3,6 +3,7 @@ import com.bridgelabz.mycontacts.auth.AuthenticationConfig;
 import com.bridgelabz.mycontacts.auth.SessionManager;
 import com.bridgelabz.mycontacts.model.User;
 import com.bridgelabz.mycontacts.service.ContactService;
+import com.bridgelabz.mycontacts.service.SearchService;
 import com.bridgelabz.mycontacts.service.UserAuthenticationService;
 import com.bridgelabz.mycontacts.service.UserProfileService;
 
@@ -49,6 +50,7 @@ public class Main {
         // Creates service objects.
         UserProfileService profileService = new UserProfileService();
         ContactService contactService = new ContactService();
+        SearchService searchService = new SearchService(contactService.getContacts());
 
         // Displays the main menu repeatedly.
         while (true){
@@ -63,6 +65,7 @@ public class Main {
             System.out.println("7. Delete Contact");
             System.out.println("8. View Contacts");
             System.out.println("9. Bulk Operations");
+            System.out.println("10. Search Contacts");
             System.out.print("Enter Your Choice: ");
 
             // Reads the user's menu choice.
@@ -81,6 +84,7 @@ public class Main {
                 case  7 : contactService.deleteContact(scanner);break;
                 case  8 : contactService.viewContacts(); break;
                 case  9 : contactService.bulkoperation(scanner);break;
+                case 10 : searchService.searchContacts(scanner);break;
                 default :  System.out.println("Invalid choice.");
             }
 

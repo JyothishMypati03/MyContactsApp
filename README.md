@@ -1,50 +1,49 @@
-# UC-08 : Bulk Operations
+# UC-09 : Search Contacts
 
 ## 📌 Objective
 
-Implement the **Bulk Operations** feature for the **MyContacts App**.
+Implement the **Search Contacts** feature for the **MyContacts App**.
 
-A logged-in user can perform operations on multiple contacts at the same time, such as deleting multiple contacts, adding a common tag, and exporting contacts to a file.
+A logged-in user can search contacts using different criteria such as **Name**, **Phone Number**, **Email Address**, and **Tag**.
 
 ---
 
 ## 🎯 Requirements
 
-- Delete multiple contacts in one operation.
-- Add the same tag to multiple contacts.
-- Export all contacts to a text file.
-- Display success or error messages after each operation.
+- Search contacts by Name.
+- Search contacts by Phone Number.
+- Search contacts by Email Address.
+- Search contacts by Tag.
+- Display all matching contacts.
+- Display a message if no matching contact is found.
 
 ---
 
 ## 🛠 OOP Concepts Used
 
+- Interface
+- Polymorphism
 - Encapsulation
-- Object-Oriented Design
-- Collections
-- Object Manipulation
-- Reusability
+- Composition
+- Strategy Pattern (using different search criteria)
 
 ---
 
 ## ☕ Java Concepts Used
 
+- Interface
 - ArrayList
 - List Interface
-- Set Interface
-- LinkedHashSet
-- Scanner
 - Enhanced For Loop
-- Java NIO (`Files`, `Path`, `Paths`)
-- Exception Handling (`try-catch`)
-- String Methods (`split()`, `trim()`)
-- CRUD Operations
+- String Methods (`contains()`, `equalsIgnoreCase()`)
+- Packages
+- Collections
 
 ---
 
 ## 📂 Project Structure
 
-```
+```text
 src
 └── main
     └── java
@@ -65,216 +64,244 @@ src
                     │     ├── BasicAuthentication.java
                     │     └── SessionManager.java
                     │
+                    ├── search
+                    │     ├── SearchCriteria.java
+                    │     ├── NameSearchCriteria.java
+                    │     ├── PhoneSearchCriteria.java
+                    │     ├── EmailSearchCriteria.java
+                    │     └── TagSearchCriteria.java
+                    │
                     ├── service
                     │     ├── UserAuthenticationService.java
                     │     ├── UserProfileService.java
-                    │     └── ContactService.java
+                    │     ├── ContactService.java
+                    │     └── SearchService.java
                     │
                     └── Main.java
 ```
 
 ---
 
-## 📄 Class Description
+# 📄 Class Description
 
-### Contact.java
+## SearchCriteria.java
 
-Represents a contact.
-
-Responsibilities:
-
-- Store contact information.
-- Store tags.
-- Generate unique Contact ID.
-- Display contact details.
-
----
-
-### ContactService.java
-
-Handles all contact-related operations.
+An interface representing a search rule.
 
 Responsibilities:
 
-- Create Contact
-- View Contact
-- Edit Contact
-- Delete Contact
-- Bulk Delete Contacts
-- Bulk Add Tags
-- Export Contacts
+- Define one method:
+    - `matches(Contact contact)`
+
+Different search classes implement this interface.
 
 ---
 
-### Main.java
+## NameSearchCriteria.java
 
-Application entry point.
+Searches contacts using the contact name.
+
+---
+
+## PhoneSearchCriteria.java
+
+Searches contacts using phone numbers.
+
+---
+
+## EmailSearchCriteria.java
+
+Searches contacts using email addresses.
+
+---
+
+## TagSearchCriteria.java
+
+Searches contacts using tags.
+
+---
+
+## SearchService.java
+
+Handles all search operations.
 
 Responsibilities:
 
-- Display menu.
-- Read user choice.
-- Call Contact Service methods.
+- Display search menu.
+- Accept user input.
+- Select the appropriate search strategy.
+- Display matching contacts.
 
 ---
 
-# 🔄 Bulk Operations Flow
+## ContactService.java
 
+Provides access to the contact list through:
+
+```java
+getContacts()
 ```
+
+---
+
+## Main.java
+
+Displays the Search Contacts menu and calls `SearchService`.
+
+---
+
+# 🔄 Search Flow
+
+```text
 Logged-in User
-       │
-       ▼
-Select Bulk Operations
-       │
-       ▼
-Choose Operation
-       │
- ┌─────┼───────────────┐
- │     │               │
- ▼     ▼               ▼
-Delete Tag         Export
- │     │               │
- ▼     ▼               ▼
-Perform Operation
-       │
-       ▼
-Display Result
+        │
+        ▼
+Select "Search Contacts"
+        │
+        ▼
+Choose Search Type
+        │
+ ┌──────┼───────────────┬───────────────┐
+ │      │               │               │
+ ▼      ▼               ▼               ▼
+Name   Phone          Email           Tag
+ │      │               │               │
+ └──────┴───────────────┴───────────────┘
+                │
+                ▼
+Search Contact List
+                │
+        ┌───────┴────────┐
+        │                │
+     Match Found      No Match
+        │                │
+        ▼                ▼
+Display Contact    Show Message
 ```
 
 ---
 
 # 📋 Features
 
-## 1. Bulk Delete Contacts
+## 1. Search by Name
 
-Delete multiple contacts in one operation.
+Search contacts using the contact name.
 
-Example input
-
-```
-Rahul,Ramesh,Priya
-```
-
-All matching contacts are removed.
-
----
-
-## 2. Bulk Add Tag
-
-Add the same tag to multiple contacts.
-
-Example
-
-```
-Contacts
-
-Rahul
-
-Ramesh
-
-Priya
-
-↓
-
-Tag
-
-Friends
-```
-
-After operation
+Example:
 
 ```
 Rahul
+```
 
-Tags
+Displays every contact whose name contains "Rahul".
 
-Friends
+---
 
-----------------
+## 2. Search by Phone Number
 
-Ramesh
+Search using any part of the phone number.
 
-Tags
+Example:
 
-Friends
+```
+9876
+```
 
-----------------
+Matches:
 
-Priya
-
-Tags
-
-Friends
+```
+9876543210
 ```
 
 ---
 
-## 3. Export Contacts
+## 3. Search by Email
 
-Exports every contact to a text file.
+Search contacts using an email address.
 
-Example
-
-```
-contacts-export.txt
-```
-
-The file contains complete contact information.
-
----
-
-# ▶️ Sample Output
-
-### Bulk Delete
+Example:
 
 ```
-========== BULK OPERATIONS ==========
+gmail
+```
 
-1. Bulk Delete Contacts
+Matches:
 
-2. Bulk Add Tag
-
-3. Export Contacts
-
-4. Back
-
-Enter Choice : 1
-
-Enter contact names to delete
-
-Rahul,Ramesh
-
-Selected contacts deleted successfully.
+```
+rahul@gmail.com
 ```
 
 ---
 
-### Bulk Tag
+## 4. Search by Tag
+
+Search contacts using tags.
+
+Example:
 
 ```
-Enter contact names
-
-Rahul,Priya
-
-Enter Tag
-
 Family
+```
 
-Tag added to 2 contact(s).
+Displays all contacts having the **Family** tag.
+
+---
+
+## ▶️ Sample Output
+
+### Search by Name
+
+```text
+========== SEARCH CONTACTS ==========
+
+1. Search by Name
+2. Search by Phone
+3. Search by Email
+4. Search by Tag
+
+Enter Your Choice : 1
+
+Enter Search Value : Rahul
+
+========== SEARCH RESULTS ==========
+
+Contact Details
+
+Name : Rahul
+
+Phone : [9876543210]
+
+Email : [rahul@gmail.com]
+
+Address : Bangalore
+
+Tags : [Friends]
 ```
 
 ---
 
-### Export
+### Search by Tag
 
+```text
+Enter Choice : 4
+
+Enter Search Value : Friends
+
+========== SEARCH RESULTS ==========
+
+Rahul
+
+Ramesh
+
+Priya
 ```
-Enter export file name
 
-contacts.txt
+---
 
-Contacts exported successfully.
+### No Match
 
-Location
+```text
+========== SEARCH RESULTS ==========
 
-contacts.txt
+No matching contacts found.
 ```
