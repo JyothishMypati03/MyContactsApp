@@ -1,29 +1,29 @@
-# UC-07 : Delete Contact
+# UC-08 : Bulk Operations
 
 ## 📌 Objective
 
-Implement the **Delete Contact** feature for the **MyContacts App**.
+Implement the **Bulk Operations** feature for the **MyContacts App**.
 
-A logged-in user can delete an existing contact from the contact list after confirming the deletion.
+A logged-in user can perform operations on multiple contacts at the same time, such as deleting multiple contacts, adding a common tag, and exporting contacts to a file.
 
 ---
 
 ## 🎯 Requirements
 
-- Search for an existing contact.
-- Display the contact details before deletion.
-- Ask for user confirmation.
-- Delete the contact from the contact list.
-- Display success or cancellation message.
+- Delete multiple contacts in one operation.
+- Add the same tag to multiple contacts.
+- Export all contacts to a text file.
+- Display success or error messages after each operation.
 
 ---
 
 ## 🛠 OOP Concepts Used
 
 - Encapsulation
-- Getter Methods
 - Object-Oriented Design
-- Object Removal from Collection
+- Collections
+- Object Manipulation
+- Reusability
 
 ---
 
@@ -31,12 +31,14 @@ A logged-in user can delete an existing contact from the contact list after conf
 
 - ArrayList
 - List Interface
+- Set Interface
+- LinkedHashSet
 - Scanner
 - Enhanced For Loop
-- String Comparison (`equalsIgnoreCase()`)
-- Collections
-- Object Searching
-- Object Deletion
+- Java NIO (`Files`, `Path`, `Paths`)
+- Exception Handling (`try-catch`)
+- String Methods (`split()`, `trim()`)
+- CRUD Operations
 
 ---
 
@@ -82,8 +84,8 @@ Represents a contact.
 Responsibilities:
 
 - Store contact information.
+- Store tags.
 - Generate unique Contact ID.
-- Store creation timestamp.
 - Display contact details.
 
 ---
@@ -95,10 +97,12 @@ Handles all contact-related operations.
 Responsibilities:
 
 - Create Contact
-- View Contacts
-- View Contact Details
+- View Contact
 - Edit Contact
 - Delete Contact
+- Bulk Delete Contacts
+- Bulk Add Tags
+- Export Contacts
 
 ---
 
@@ -114,148 +118,163 @@ Responsibilities:
 
 ---
 
-## 🔄 Delete Contact Flow
+# 🔄 Bulk Operations Flow
 
 ```
 Logged-in User
        │
        ▼
-Select "Delete Contact"
+Select Bulk Operations
        │
        ▼
-Enter Contact Name
+Choose Operation
+       │
+ ┌─────┼───────────────┐
+ │     │               │
+ ▼     ▼               ▼
+Delete Tag         Export
+ │     │               │
+ ▼     ▼               ▼
+Perform Operation
        │
        ▼
-Search Contact List
-       │
- ┌─────┴─────┐
- │           │
-Found     Not Found
- │           │
- ▼           ▼
-Display     Show
-Contact     "Contact Not Found"
- │
- ▼
-Ask for Confirmation
- │
- ┌─────┴─────┐
- │           │
-Yes          No
- │           │
- ▼           ▼
-Delete     Cancel Delete
- │
- ▼
-Display Success Message
+Display Result
 ```
 
 ---
 
-## 📋 Features
+# 📋 Features
 
-### 1. Delete Contact
+## 1. Bulk Delete Contacts
 
-Allows the user to delete an existing contact from the contact list.
+Delete multiple contacts in one operation.
+
+Example input
+
+```
+Rahul,Ramesh,Priya
+```
+
+All matching contacts are removed.
 
 ---
 
-### 2. Search Contact
+## 2. Bulk Add Tag
 
-The application searches the contact using the contact name.
+Add the same tag to multiple contacts.
 
-If found, complete contact details are displayed.
-
----
-
-### 3. Confirmation Before Delete
-
-Before deleting, the application asks:
+Example
 
 ```
-Are you sure you want to delete this contact? (yes/no)
+Contacts
+
+Rahul
+
+Ramesh
+
+Priya
+
+↓
+
+Tag
+
+Friends
 ```
 
-This helps prevent accidental deletion.
-
----
-
-### 4. Delete Contact
-
-If the user enters:
+After operation
 
 ```
-yes
-```
+Rahul
 
-The contact is removed from the contact list.
+Tags
 
----
+Friends
 
-### 5. Cancel Delete
+----------------
 
-If the user enters:
+Ramesh
 
-```
-no
-```
+Tags
 
-The contact remains unchanged.
+Friends
 
----
+----------------
 
-## ▶️ Sample Output
+Priya
 
-### Delete Successful
+Tags
 
-```
-========== DELETE CONTACT ==========
-
-Enter Contact Name to Delete : Rahul
-
-Contact Found
-
-Name : Rahul
-
-Phone : [9876543210]
-
-Email : [rahul@gmail.com]
-
-Address : Bangalore
-
-Notes : College Friend
-
-Are you sure you want to delete this contact? (yes/no)
-
-yes
-
-Contact deleted successfully.
+Friends
 ```
 
 ---
 
-### Delete Cancelled
+## 3. Export Contacts
+
+Exports every contact to a text file.
+
+Example
 
 ```
-========== DELETE CONTACT ==========
+contacts-export.txt
+```
 
-Enter Contact Name to Delete : Rahul
+The file contains complete contact information.
 
-Are you sure you want to delete this contact? (yes/no)
+---
 
-no
+# ▶️ Sample Output
 
-Delete cancelled.
+### Bulk Delete
+
+```
+========== BULK OPERATIONS ==========
+
+1. Bulk Delete Contacts
+
+2. Bulk Add Tag
+
+3. Export Contacts
+
+4. Back
+
+Enter Choice : 1
+
+Enter contact names to delete
+
+Rahul,Ramesh
+
+Selected contacts deleted successfully.
 ```
 
 ---
 
-### Contact Not Found
+### Bulk Tag
 
 ```
-========== DELETE CONTACT ==========
+Enter contact names
 
-Enter Contact Name to Delete : Suresh
+Rahul,Priya
 
-Contact not found.
+Enter Tag
+
+Family
+
+Tag added to 2 contact(s).
+```
+
+---
+
+### Export
+
+```
+Enter export file name
+
+contacts.txt
+
+Contacts exported successfully.
+
+Location
+
+contacts.txt
 ```

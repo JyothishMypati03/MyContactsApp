@@ -62,6 +62,7 @@ public class Main {
             System.out.println("6. Edit Contact");
             System.out.println("7. Delete Contact");
             System.out.println("8. View Contacts");
+            System.out.println("9. Bulk Operations");
             System.out.print("Enter Your Choice: ");
 
             // Reads the user's menu choice.
@@ -79,6 +80,7 @@ public class Main {
                 case  6 : contactService.editContact(scanner);break;
                 case  7 : contactService.deleteContact(scanner);break;
                 case  8 : contactService.viewContacts(); break;
+                case  9 : contactService.bulkoperation(scanner);break;
                 default :  System.out.println("Invalid choice.");
             }
 

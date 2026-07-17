@@ -4,13 +4,19 @@ import com.bridgelabz.mycontacts.model.Contact;
 import com.bridgelabz.mycontacts.model.User;
 import com.bridgelabz.mycontacts.validation.ContactValidator;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class ContactService {
 
-    private final List<Contact> contacts =  new ArrayList<>();
+     List<Contact> contacts =  new ArrayList<>();
 
     // Creates a new contact for the logged-in user.
     public  void createContact(User loggedInUser , Scanner scanner){
@@ -275,6 +281,148 @@ public class ContactService {
 
     }
 
+    // BulkOperations
+    public void  bulkoperation(Scanner scanner){
+
+        while (true){
+
+            System.out.println("\n========== BULK OPERATIONS ==========");
+            System.out.println("1. Bulk Delete Contacts");
+            System.out.println("2. Bulk Add Tag");
+            System.out.println("3. Export Contacts");
+            System.out.print("Enter Your Choice: ");
+
+            int choice;
+            try {
+
+                choice = scanner.nextInt();
+
+            }catch (Exception e){
+
+                System.out.println("Invalid choice.");
+                continue;
+
+            }
+
+            switch (choice){
+
+                case 1 : bulkDeleteContacts(scanner); break;
+                case 2 : bulkAddTag(scanner); break;
+                case 3 : exportContacts(scanner); break;
+                default:  System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    //bulkDeleteCotacts
+    public  void bulkDeleteContacts(Scanner scanner){
+
+        if(contacts.isEmpty()){
+
+            System.out.println("No contacts Avalilabe ");
+            return;
+        }
+
+        System.out.println("Enter contact name to delete (comma separated) :");
+        String contactsString = scanner.nextLine();
+
+        String[] contactsNames = contactsString.split(",");
+
+        List<Contact> toRemove = new ArrayList<>();
+
+        for( String contactName : contactsNames){
+
+            Contact contactByName = findContactByName(contactName);
+            if(contactByName != null){
+                toRemove.add(contactByName);
+            }
+
+        }
+
+        if (toRemove.isEmpty()) {
+            System.out.println("No matching contacts found.");
+            return;
+        }
+
+        contacts.removeAll(toRemove);
+        System.out.println("Selected contacts deleted successfully.");
+
+    }
+
+    //bulkAddTag
+    public void bulkAddTag(Scanner scanner){
+
+        if(contacts.isEmpty()){
+            System.out.println("No contacts available.");
+            return;
+        }
+
+        System.out.println("Enter contact names to tag (comma separated): ");
+        String contactsString = scanner.nextLine();
+
+        System.out.println("Enter tag Name : ");
+        String tag = scanner.nextLine().trim();
+
+        String[] contactsNames = contactsString.split(",");
+        int updatedCount = 0;
+
+        for(String contactsName : contactsNames){
+
+            Contact contactByName = findContactByName(contactsName);
+            if(contactByName != null ){
+
+                contactByName.addTag(tag);
+                updatedCount++;
+
+            }
+
+        }
+
+        if(updatedCount == 0){
+            System.out.println("No matching contacts found.");
+
+        }else {
+            System.out.println("Tag added to " + updatedCount + " contact(s).");
+        }
+
+    }
+
+    //ExportsContacts
+    public void exportContacts(Scanner scanner){
+
+        if(contacts.isEmpty()){
+            System.out.println("No contacts available.");
+            return;
+        }
+
+        System.out.println("Enter export file name (default: contacts-export.txt): ");
+        String  fileName = scanner.nextLine().trim();
+
+        if(fileName.isBlank()){
+            fileName ="contacts-export.txt";
+
+        }
+
+        Path path = Paths.get(fileName);
+
+        try(BufferedWriter bufferedWriter =Files.newBufferedWriter(path)){
+
+                for(Contact contact  : contacts){
+
+                    bufferedWriter.write(contacts.toString());
+                    bufferedWriter.newLine();
+                    bufferedWriter.newLine();
+
+                }
+
+            System.out.println("Contacts exported successfully.");
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     // Finds a contact by name.
     private Contact findContactByName(String name) {
         for (Contact contact : contacts) {
@@ -299,6 +447,5 @@ public class ContactService {
             System.out.println("Enter a valid positive number.");
         }
     }
-
 
 }

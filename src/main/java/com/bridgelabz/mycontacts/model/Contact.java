@@ -3,6 +3,7 @@ package com.bridgelabz.mycontacts.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 // Stores contact details
@@ -15,6 +16,7 @@ public class Contact {
     private List<String> emailAddresses;
     private String address;
     private String notes;
+    private Set<String> tags;
     private LocalDateTime createdAt;
 
     public Contact(String ownerEmail ,
@@ -83,22 +85,31 @@ public class Contact {
         return notes;
     }
 
+    public Set<String> getTags() {
+        return tags;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
+    public void addTag(String tag) {
+        tags.add(tag);
+    }
+
     @Override
     public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", ownerEmail='" + ownerEmail + '\'' +
-                ", name='" + name + '\'' +
-                ", phoneNumbers=" + phoneNumbers +
-                ", emailAddresses=" + emailAddresses +
-                ", address='" + address + '\'' +
-                ", notes='" + notes + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
+        return "Contact Details\n" +
+                "ID            : " + id + "\n" +
+                "Owner Email   : " + ownerEmail + "\n" +
+                "Name          : " + name + "\n" +
+                "Phone Numbers : " + phoneNumbers + "\n" +
+                "Email Address : " + emailAddresses + "\n" +
+                "Address       : " + address + "\n" +
+                "Notes         : " + notes + "\n" +
+                "Tags          : " + tags + "\n" +
+                "Created At    : " + createdAt;
+
     }
 
 }
