@@ -1,20 +1,22 @@
-# UC-09 : Search Contacts
+# UC-10 : Advanced Filtering
 
 ## 📌 Objective
 
-Implement the **Search Contacts** feature for the **MyContacts App**.
+Implement the **Advanced Filtering** feature for the **MyContacts App**.
 
-A logged-in user can search contacts using different criteria such as **Name**, **Phone Number**, **Email Address**, and **Tag**.
+A logged-in user can filter contacts by **Tag**, **Date Added**, and **Frequently Contacted**. The user can also combine multiple filters and sort the filtered results.
 
 ---
 
 ## 🎯 Requirements
 
-- Search contacts by Name.
-- Search contacts by Phone Number.
-- Search contacts by Email Address.
-- Search contacts by Tag.
-- Display all matching contacts.
+- Filter contacts by Tag.
+- Filter contacts by Date Added.
+- Filter contacts by Frequently Contacted.
+- Combine multiple filters together.
+- Sort filtered contacts by name.
+- Sort filtered contacts by contact count.
+- Display matching contacts.
 - Display a message if no matching contact is found.
 
 ---
@@ -25,19 +27,26 @@ A logged-in user can search contacts using different criteria such as **Name**, 
 - Polymorphism
 - Encapsulation
 - Composition
-- Strategy Pattern (using different search criteria)
+- Object-Oriented Design
+- Strategy Pattern
+- Composite Pattern
 
 ---
 
 ## ☕ Java Concepts Used
 
-- Interface
 - ArrayList
 - List Interface
+- Set Interface
+- Comparator
+- Stream API
+- Lambda Expressions
+- Functional Interfaces
 - Enhanced For Loop
-- String Methods (`contains()`, `equalsIgnoreCase()`)
+- LocalDate
+- LocalDateTime
+- String Methods
 - Packages
-- Collections
 
 ---
 
@@ -64,109 +73,120 @@ src
                     │     ├── BasicAuthentication.java
                     │     └── SessionManager.java
                     │
-                    ├── search
-                    │     ├── SearchCriteria.java
-                    │     ├── NameSearchCriteria.java
-                    │     ├── PhoneSearchCriteria.java
-                    │     ├── EmailSearchCriteria.java
-                    │     └── TagSearchCriteria.java
+                    ├── filter
+                    │     ├── FilterCriteria.java
+                    │     ├── TagFilterCriteria.java
+                    │     ├── DateAddedFilterCriteria.java
+                    │     ├── FrequentlyContactedFilterCriteria.java
+                    │     └── CompositeFilterCriteria.java
                     │
                     ├── service
                     │     ├── UserAuthenticationService.java
                     │     ├── UserProfileService.java
                     │     ├── ContactService.java
-                    │     └── SearchService.java
+                    │     ├── SearchService.java
+                    │     └── ContactFilterService.java
                     │
                     └── Main.java
 ```
 
 ---
 
-# 📄 Class Description
+## 📄 Class Description
 
-## SearchCriteria.java
+### Contact.java
 
-An interface representing a search rule.
+Represents a contact.
+
+Responsibilities:
+
+- Store contact information.
+- Store tags.
+- Store creation date.
+- Store contact count.
+- Store last contacted time.
+- Display contact details.
+
+---
+
+### FilterCriteria.java
+
+An interface for filtering contacts.
 
 Responsibilities:
 
 - Define one method:
     - `matches(Contact contact)`
 
-Different search classes implement this interface.
+---
+
+### TagFilterCriteria.java
+
+Filters contacts by tag.
 
 ---
 
-## NameSearchCriteria.java
+### DateAddedFilterCriteria.java
 
-Searches contacts using the contact name.
-
----
-
-## PhoneSearchCriteria.java
-
-Searches contacts using phone numbers.
+Filters contacts based on creation date.
 
 ---
 
-## EmailSearchCriteria.java
+### FrequentlyContactedFilterCriteria.java
 
-Searches contacts using email addresses.
-
----
-
-## TagSearchCriteria.java
-
-Searches contacts using tags.
+Filters contacts based on contact count.
 
 ---
 
-## SearchService.java
+### CompositeFilterCriteria.java
 
-Handles all search operations.
+Combines multiple filters into one filter.
+
+---
+
+### ContactFilterService.java
+
+Handles advanced filtering operations.
 
 Responsibilities:
 
-- Display search menu.
+- Display filter menu.
 - Accept user input.
-- Select the appropriate search strategy.
+- Apply selected filter.
+- Sort filtered results.
 - Display matching contacts.
 
 ---
 
-## ContactService.java
+### Main.java
 
-Provides access to the contact list through:
+Application entry point.
 
-```java
-getContacts()
-```
+Responsibilities:
 
----
-
-## Main.java
-
-Displays the Search Contacts menu and calls `SearchService`.
+- Display menu.
+- Read user choice.
+- Call filter service methods.
 
 ---
 
-# 🔄 Search Flow
+## 🔄 Advanced Filtering Flow
 
 ```text
 Logged-in User
-        │
-        ▼
-Select "Search Contacts"
-        │
-        ▼
-Choose Search Type
-        │
- ┌──────┼───────────────┬───────────────┐
- │      │               │               │
- ▼      ▼               ▼               ▼
-Name   Phone          Email           Tag
- │      │               │               │
- └──────┴───────────────┴───────────────┘
+       │
+       ▼
+Select "Advanced Filtering"
+       │
+       ▼
+Choose Filter Type
+       │
+ ┌─────┼───────────────┬────────────────────┐
+ │     │               │                    │
+ ▼     ▼               ▼                    ▼
+Tag   Date Added   Frequently Contacted   Combine Filters
+ │     │               │                    │
+ └─────┴───────────────┴────────────────────┘
                 │
                 ▼
 Search Contact List
@@ -181,118 +201,106 @@ Display Contact    Show Message
 
 ---
 
-# 📋 Features
+## 📋 Features
 
-## 1. Search by Name
+### 1. Filter by Tag
 
-Search contacts using the contact name.
-
-Example:
-
-```
-Rahul
-```
-
-Displays every contact whose name contains "Rahul".
-
----
-
-## 2. Search by Phone Number
-
-Search using any part of the phone number.
+Shows contacts that contain a selected tag.
 
 Example:
 
-```
-9876
-```
-
-Matches:
-
-```
-9876543210
-```
-
----
-
-## 3. Search by Email
-
-Search contacts using an email address.
-
-Example:
-
-```
-gmail
-```
-
-Matches:
-
-```
-rahul@gmail.com
-```
-
----
-
-## 4. Search by Tag
-
-Search contacts using tags.
-
-Example:
-
-```
+```text
 Family
 ```
 
-Displays all contacts having the **Family** tag.
+Displays contacts tagged with **Family**.
+
+---
+
+### 2. Filter by Date Added
+
+Shows contacts created on or after a selected date.
+
+Example:
+
+```text
+2026-07-01
+```
+
+Displays contacts added after that date.
+
+---
+
+### 3. Filter by Frequently Contacted
+
+Shows contacts whose contact count is above a selected minimum.
+
+Example:
+
+```text
+5
+```
+
+Displays contacts contacted 5 or more times.
+
+---
+
+### 4. Combine Multiple Filters
+
+Allows combining filters like:
+
+- Tag + Date Added
+- Tag + Frequently Contacted
+- Date Added + Frequently Contacted
+- All three together
+
+---
+
+### 5. Sort Filtered Results
+
+Filtered contacts can be sorted by:
+
+- Name
+- Contact Count
 
 ---
 
 ## ▶️ Sample Output
 
-### Search by Name
+### Filter by Tag
 
 ```text
-========== SEARCH CONTACTS ==========
+========== ADVANCED FILTERS ==========
 
-1. Search by Name
-2. Search by Phone
-3. Search by Email
-4. Search by Tag
+1. Filter by Tag
+2. Filter by Date Added
+3. Filter by Frequently Contacted
+4. Combine Filters
+5. Sort by Name
+6. Sort by Frequently Contacted
 
 Enter Your Choice : 1
 
-Enter Search Value : Rahul
+Enter Tag : Family
 
-========== SEARCH RESULTS ==========
+========== FILTER RESULTS ==========
 
 Contact Details
-
 Name : Rahul
-
-Phone : [9876543210]
-
-Email : [rahul@gmail.com]
-
-Address : Bangalore
-
-Tags : [Friends]
+Tags : [Family]
 ```
 
 ---
 
-### Search by Tag
+### Sort by Name
 
 ```text
-Enter Choice : 4
+Enter Your Choice : 5
 
-Enter Search Value : Friends
-
-========== SEARCH RESULTS ==========
+========== FILTER RESULTS ==========
 
 Rahul
-
 Ramesh
-
 Priya
 ```
 
@@ -301,7 +309,7 @@ Priya
 ### No Match
 
 ```text
-========== SEARCH RESULTS ==========
+========== FILTER RESULTS ==========
 
 No matching contacts found.
 ```

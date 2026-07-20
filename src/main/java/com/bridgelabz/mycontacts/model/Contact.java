@@ -18,6 +18,10 @@ public class Contact {
     private String notes;
     private Set<String> tags;
     private LocalDateTime createdAt;
+    private int contactCount;
+    private LocalDateTime lastContactedAt;
+
+
 
     public Contact(String ownerEmail ,
                    String name,
@@ -93,22 +97,37 @@ public class Contact {
         return createdAt;
     }
 
+    public int getContactCount() {
+        return contactCount;
+    }
+
+    public LocalDateTime getLastContactedAt() {
+        return lastContactedAt;
+    }
+
     public void addTag(String tag) {
         tags.add(tag);
+    }
+
+    public void incrementContactCount() {
+        contactCount++;
+        lastContactedAt = LocalDateTime.now();
     }
 
     @Override
     public String toString() {
         return "Contact Details\n" +
-                "ID            : " + id + "\n" +
-                "Owner Email   : " + ownerEmail + "\n" +
-                "Name          : " + name + "\n" +
-                "Phone Numbers : " + phoneNumbers + "\n" +
-                "Email Address : " + emailAddresses + "\n" +
-                "Address       : " + address + "\n" +
-                "Notes         : " + notes + "\n" +
-                "Tags          : " + tags + "\n" +
-                "Created At    : " + createdAt;
+                "ID               : " + id + "\n" +
+                "Owner Email      : " + ownerEmail + "\n" +
+                "Name             : " + name + "\n" +
+                "Phone Numbers    : " + phoneNumbers + "\n" +
+                "Email Address    : " + emailAddresses + "\n" +
+                "Address          : " + address + "\n" +
+                "Notes            : " + notes + "\n" +
+                "Tags             : " + tags + "\n" +
+                "Created At       : " + createdAt + "\n" +
+                "Contact Count    : " + contactCount + "\n" +
+                "Last Contacted At: " + lastContactedAt;
 
     }
 

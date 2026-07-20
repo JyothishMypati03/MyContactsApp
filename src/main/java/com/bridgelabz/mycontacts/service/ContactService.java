@@ -123,14 +123,14 @@ public class ContactService {
         System.out.print("Enter Contact Name: ");
         String name = scanner.nextLine();
 
-        for (Contact contact : contacts) {
-            if (contact.getName().equalsIgnoreCase(name)) {
-                System.out.println("\n" + contact);
-                return;
-            }
-        }
+        Contact contact = findContactByName(name);
 
-        System.out.println("Contact not found.");
+        if (contact != null) {
+            contact.incrementContactCount();
+            System.out.println("\n" + contact);
+        } else {
+            System.out.println("Contact not found.");
+        }
 
     }
 
