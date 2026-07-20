@@ -1,10 +1,7 @@
 package com.bridgelabz.mycontacts.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 // Stores contact details
 public class Contact {
@@ -38,6 +35,9 @@ public class Contact {
         this.address=address;
         this.notes=notes;
         this.createdAt=LocalDateTime.now();
+        this.tags = new LinkedHashSet<>();
+        this.contactCount = 0;
+        this.lastContactedAt = null;
 
     }
 
@@ -107,6 +107,10 @@ public class Contact {
 
     public void addTag(String tag) {
         tags.add(tag);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
     }
 
     public void incrementContactCount() {

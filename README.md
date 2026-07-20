@@ -1,51 +1,44 @@
-# UC-10 : Advanced Filtering
+# UC-12 : Apply Tags to Contacts
 
 ## 📌 Objective
 
-Implement the **Advanced Filtering** feature for the **MyContacts App**.
+Implement the **Apply Tags to Contacts** feature for the **MyContacts App**.
 
-A logged-in user can filter contacts by **Tag**, **Date Added**, and **Frequently Contacted**. The user can also combine multiple filters and sort the filtered results.
+A logged-in user can assign **one or multiple tags** to a contact for better organization and categorization.
 
 ---
 
 ## 🎯 Requirements
 
-- Filter contacts by Tag.
-- Filter contacts by Date Added.
-- Filter contacts by Frequently Contacted.
-- Combine multiple filters together.
-- Sort filtered contacts by name.
-- Sort filtered contacts by contact count.
-- Display matching contacts.
-- Display a message if no matching contact is found.
+- Apply one or more tags to a contact.
+- Create a tag automatically if it does not already exist.
+- Remove tags from a contact.
+- View contacts based on tags.
+- Display all contacts along with their assigned tags.
 
 ---
 
 ## 🛠 OOP Concepts Used
 
-- Interface
-- Polymorphism
 - Encapsulation
 - Composition
+- Association (Contact ↔ Tag)
+- Many-to-Many Relationship
 - Object-Oriented Design
-- Strategy Pattern
-- Composite Pattern
 
 ---
 
 ## ☕ Java Concepts Used
 
-- ArrayList
-- List Interface
 - Set Interface
-- Comparator
-- Stream API
-- Lambda Expressions
-- Functional Interfaces
+- LinkedHashSet
+- HashSet
+- Collections
 - Enhanced For Loop
-- LocalDate
-- LocalDateTime
-- String Methods
+- Scanner
+- equals()
+- hashCode()
+- UUID
 - Packages
 
 ---
@@ -62,150 +55,211 @@ src
                     │
                     ├── model
                     │     ├── User.java
-                    │     └── Contact.java
+                    │     ├── Contact.java
+                    │     └── Tag.java
                     │
                     ├── validation
                     │     ├── UserValidator.java
-                    │     └── ContactValidator.java
+                    │     ├── ContactValidator.java
+                    │     └── TagValidator.java
                     │
                     ├── auth
                     │     ├── Authentication.java
                     │     ├── BasicAuthentication.java
                     │     └── SessionManager.java
                     │
-                    ├── filter
-                    │     ├── FilterCriteria.java
-                    │     ├── TagFilterCriteria.java
-                    │     ├── DateAddedFilterCriteria.java
-                    │     ├── FrequentlyContactedFilterCriteria.java
-                    │     └── CompositeFilterCriteria.java
-                    │
                     ├── service
                     │     ├── UserAuthenticationService.java
                     │     ├── UserProfileService.java
                     │     ├── ContactService.java
                     │     ├── SearchService.java
-                    │     └── ContactFilterService.java
+                    │     ├── ContactFilterService.java
+                    │     └── TagService.java
                     │
                     └── Main.java
 ```
 
 ---
 
-## 📄 Class Description
+# 📄 Class Description
 
-### Contact.java
+## Tag.java
+
+Represents a tag.
+
+Responsibilities:
+
+- Store tag name.
+- Store associated contact IDs.
+- Override `equals()`.
+- Override `hashCode()`.
+
+---
+
+## Contact.java
 
 Represents a contact.
 
 Responsibilities:
 
 - Store contact information.
-- Store tags.
-- Store creation date.
-- Store contact count.
-- Store last contacted time.
-- Display contact details.
+- Store multiple tags.
+- Add tags.
+- Remove tags.
 
 ---
 
-### FilterCriteria.java
+## TagValidator.java
 
-An interface for filtering contacts.
+Validates tag names.
 
 Responsibilities:
 
-- Define one method:
-    - `matches(Contact contact)`
+- Check tag format.
+- Allow only valid names.
 
 ---
 
-### TagFilterCriteria.java
+## TagService.java
 
-Filters contacts by tag.
-
----
-
-### DateAddedFilterCriteria.java
-
-Filters contacts based on creation date.
-
----
-
-### FrequentlyContactedFilterCriteria.java
-
-Filters contacts based on contact count.
-
----
-
-### CompositeFilterCriteria.java
-
-Combines multiple filters into one filter.
-
----
-
-### ContactFilterService.java
-
-Handles advanced filtering operations.
+Handles all tag operations.
 
 Responsibilities:
 
-- Display filter menu.
-- Accept user input.
-- Apply selected filter.
-- Sort filtered results.
-- Display matching contacts.
+- Create Tag
+- View Tags
+- Apply Tags to Contact
+- Remove Tag from Contact
+- Search Contacts by Tag
+- Display Contacts with Tags
 
 ---
 
-### Main.java
+## Main.java
 
 Application entry point.
 
 Responsibilities:
 
 - Display menu.
-- Read user choice.
-- Call filter service methods.
+- Read user input.
+- Call TagService methods.
 
 ---
 
-## 🔄 Advanced Filtering Flow
+# 🔄 Apply Tags Flow
 
 ```text
 Logged-in User
-       │
-       ▼
-Select "Advanced Filtering"
-       │
-       ▼
-Choose Filter Type
-       │
- ┌─────┼───────────────┬────────────────────┐
- │     │               │                    │
- ▼     ▼               ▼                    ▼
-Tag   Date Added   Frequently Contacted   Combine Filters
- │     │               │                    │
- └─────┴───────────────┴────────────────────┘
-                │
-                ▼
-Search Contact List
-                │
-        ┌───────┴────────┐
-        │                │
-     Match Found      No Match
-        │                │
-        ▼                ▼
-Display Contact    Show Message
+        │
+        ▼
+Select "Apply Tags"
+        │
+        ▼
+Choose Contact
+        │
+        ▼
+Enter Number of Tags
+        │
+        ▼
+Enter Tag Names
+        │
+        ▼
+Check Tag Exists
+        │
+   ┌────┴─────┐
+   │          │
+ Exists     Not Exists
+   │          │
+   │      Create Tag
+   │          │
+   └────┬─────┘
+        ▼
+Assign Tag to Contact
+        │
+        ▼
+Display Success Message
 ```
 
 ---
 
-## 📋 Features
+# 📋 Features
 
-### 1. Filter by Tag
+## 1. Create Tag
 
-Shows contacts that contain a selected tag.
+Create a custom tag.
+
+Example:
+
+```text
+Family
+
+Friends
+
+Work
+```
+
+---
+
+## 2. Apply Multiple Tags
+
+Assign multiple tags to one contact.
+
+Example:
+
+```text
+Contact
+
+Rahul
+
+↓
+
+Tags
+
+Family
+
+Friends
+
+Work
+```
+
+Result:
+
+```text
+Rahul
+
+Tags
+
+Family
+
+Friends
+
+Work
+```
+
+---
+
+## 3. Remove Tag
+
+Remove a tag from a contact.
+
+Example:
+
+```text
+Rahul
+
+↓
+
+Remove
+
+Friends
+```
+
+---
+
+## 4. Search by Tag
+
+Find contacts using a tag.
 
 Example:
 
@@ -213,103 +267,106 @@ Example:
 Family
 ```
 
-Displays contacts tagged with **Family**.
-
----
-
-### 2. Filter by Date Added
-
-Shows contacts created on or after a selected date.
-
-Example:
+Output:
 
 ```text
-2026-07-01
-```
-
-Displays contacts added after that date.
-
----
-
-### 3. Filter by Frequently Contacted
-
-Shows contacts whose contact count is above a selected minimum.
-
-Example:
-
-```text
-5
-```
-
-Displays contacts contacted 5 or more times.
-
----
-
-### 4. Combine Multiple Filters
-
-Allows combining filters like:
-
-- Tag + Date Added
-- Tag + Frequently Contacted
-- Date Added + Frequently Contacted
-- All three together
-
----
-
-### 5. Sort Filtered Results
-
-Filtered contacts can be sorted by:
-
-- Name
-- Contact Count
-
----
-
-## ▶️ Sample Output
-
-### Filter by Tag
-
-```text
-========== ADVANCED FILTERS ==========
-
-1. Filter by Tag
-2. Filter by Date Added
-3. Filter by Frequently Contacted
-4. Combine Filters
-5. Sort by Name
-6. Sort by Frequently Contacted
-
-Enter Your Choice : 1
-
-Enter Tag : Family
-
-========== FILTER RESULTS ==========
-
-Contact Details
-Name : Rahul
-Tags : [Family]
-```
-
----
-
-### Sort by Name
-
-```text
-Enter Your Choice : 5
-
-========== FILTER RESULTS ==========
-
 Rahul
-Ramesh
+
 Priya
 ```
 
 ---
 
-### No Match
+## 5. View Contacts with Tags
+
+Display every contact along with assigned tags.
+
+Example:
 
 ```text
-========== FILTER RESULTS ==========
+Rahul -> [Family, Friends]
 
-No matching contacts found.
+Ramesh -> [Work]
+
+Priya -> [Family]
+```
+
+---
+
+# ▶️ Sample Output
+
+## Apply Tags
+
+```text
+========== APPLY TAGS TO CONTACT ==========
+
+Enter Contact Name :
+
+Rahul
+
+How many tags do you want to apply?
+
+3
+
+Enter Tag 1 :
+
+Family
+
+Enter Tag 2 :
+
+Friends
+
+Enter Tag 3 :
+
+Office
+
+Tags applied successfully.
+```
+
+---
+
+## Remove Tag
+
+```text
+========== REMOVE TAG FROM CONTACT ==========
+
+Enter Contact Name :
+
+Rahul
+
+Enter Tag Name :
+
+Friends
+
+Tag removed successfully.
+```
+
+---
+
+## Search by Tag
+
+```text
+========== SEARCH CONTACTS BY TAG ==========
+
+Enter Tag Name :
+
+Family
+
+Rahul
+
+Priya
+```
+
+---
+
+## View Contacts with Tags
+
+```text
+========== CONTACTS WITH TAGS ==========
+
+Rahul -> [Family, Friends]
+
+Ramesh -> [Office]
+
+Priya -> [Family]
 ```

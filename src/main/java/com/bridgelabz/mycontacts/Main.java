@@ -49,6 +49,7 @@ public class Main {
         ContactService contactService = new ContactService();
         SearchService searchService = new SearchService(contactService.getContacts());
         ContactFilterService filterService = new ContactFilterService(contactService.getContacts());
+        TagService tagService = new TagService(contactService.getContacts());
 
         // Displays the main menu repeatedly.
         while (true){
@@ -65,6 +66,11 @@ public class Main {
             System.out.println("9. Bulk Operations");
             System.out.println("10. Search Contacts");
             System.out.println("11. Advanced Filtering");
+            System.out.println("12. Create Tag");
+            System.out.println("13. View Tags");
+            System.out.println("14. Apply Tag to Contact");
+            System.out.println("15. Remove Tag from Contact");
+            System.out.println("16. Search Contacts by Tag");
             System.out.print("Enter Your Choice: ");
 
             // Reads the user's menu choice.
@@ -84,7 +90,12 @@ public class Main {
                 case  8 : contactService.viewContacts(); break;
                 case  9 : contactService.bulkoperation(scanner);break;
                 case 10 : searchService.searchContacts(scanner);break;
-                case 11: filterService.filterContacts(scanner);zbreak;
+                case 11 : filterService.filterContacts(scanner);break;
+                case 12 : tagService.createTag(scanner);break;
+                case 13 : tagService.viewTags();break;
+                case 14 : tagService.addTagToContact(scanner);break;
+                case 15 : tagService.removeTagFromContact(scanner);break;
+                case 16 :  tagService.viewContactsByTag(scanner);break;
                 default :  System.out.println("Invalid choice.");
             }
 
